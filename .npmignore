@@ -1,0 +1,12 @@
+node_modules/
+.npm
+pnpm-lock.yaml
+
+.idea
+.vscode
+
+tests/
+babel.config.cjs
+webpack.config.cjs
+
+!.npmrc
