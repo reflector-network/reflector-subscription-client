@@ -32,23 +32,27 @@ const sc = new SubscriptionClient({
 //create new subscription
 const created = await sc.createSubscription({
     webhook: 'https://your.site/endpoint-that-will-receive-notifications',
-    base: {symbol: 'USD', source: 'CAB5NCTKZEET4NFI35VEQBO4N52C74HUHLZYMTQAOW7W3VOZM6XV2NU4'}, //base symbol
-    quote: {symbol: 'BTC', source: 'CAB5NCTKZEET4NFI35VEQBO4N52C74HUHLZYMTQAOW7W3VOZM6XV2NU4'}, //quote symbol
+    base: {asset: 'USD', source: 'CAB5NCTKZEET4NFI35VEQBO4N52C74HUHLZYMTQAOW7W3VOZM6XV2NU4'}, //base symbol
+    quote: {asset: 'BTC', source: 'CAB5NCTKZEET4NFI35VEQBO4N52C74HUHLZYMTQAOW7W3VOZM6XV2NU4'}, //quote symbol
     threshold: 3,  //trigger subscription if the price changed more than 0.3%
     heartbeat: 20, //send updates to the server once every 20 minutes regardless of the price changes
     initialBalance: '300' //deposit 300 tokens
 })
 console.log(created)
+const subscriptionId = created.id
 
 //retrieve subscription from the ledger
-const fetched = await sc.getSubscription(created.id)
-console.log(fetched) //will be identical to the previosuly created subscription
+const fetched = await sc.getSubscription(subscriptionId)
+console.log(fetched) //sholuld be identical to the previosuly created subscription
+
+//estimate daily retention fee
+console.log(await sc.getRetentionFee(subscriptionId))
 
 //deposit additional tokens to the subscription balance
-await sc.deposit(created.id, '100')
+await sc.deposit(subscriptionId, '100')
 
-//cancel the subscription and get back the rmaining deposit balance
-await sc.cancel(created.id)
+//cancel the subscription and get back the remaining deposit balance
+await sc.cancel(subscriptionId)
 ```
 
 ### Notifications format

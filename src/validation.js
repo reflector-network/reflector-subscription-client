@@ -31,17 +31,11 @@ export default {
             throw new Error(`Invalid "${paramName}" value`)
         return value
     },
-    validateOwner(owner) { //TODO: generalize
-        this.validateString(owner, 'owner')
-        if (!StrKey.isValidEd25519PublicKey(owner))
-            throw new TypeError('Invalid owner account address')
-        return owner
-    },
-    validateOracle(oracle) {
-        this.validateString(oracle, 'source')
-        if (!StrKey.isValidContract(oracle))
-            throw new TypeError('Invalid oracle contract address')
-        return oracle
+    validateAccount(account, paramName) {
+        this.validateString(account, paramName)
+        if (!StrKey.isValidEd25519PublicKey(account))
+            throw new TypeError(`Invalid "${paramName}" account address`)
+        return account
     },
     validateBalance(amount, paramName) {
         amount = this.validateBigint(amount, paramName)
@@ -50,7 +44,7 @@ export default {
     validateOracleSymbol(oracleToken, paramName) {
         this.validateRequired(oracleToken, paramName)
         this.validateString(oracleToken.source, paramName + '.source')
-        this.validateString(oracleToken.symbol, paramName + '.symbol')
+        this.validateString(oracleToken.asset, paramName + '.asset')
         return oracleToken
     },
     validateThreshold(threshold) {
@@ -65,8 +59,8 @@ export default {
         this.validateNumber(heartbeat, 'heartbeat')
         if (heartbeat < 5)
             throw new Error('Subscription heartbeat cannot be less than 5 minutes')
-        if (heartbeat > 60)
-            throw new Error('Subscription heartbeat cannot be greater than 60 minutes')
+        if (heartbeat > 240)
+            throw new Error('Subscription heartbeat cannot be greater than 240 minutes')
         return Math.floor(heartbeat) //ensure u32
     },
     validateWebhook(webhook) {

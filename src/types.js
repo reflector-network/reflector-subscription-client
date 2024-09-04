@@ -1,29 +1,27 @@
-import {StrKey} from '@stellar/stellar-sdk'
-
 export const ContractErrors = {
-    0: 'AlreadyInitialized',
-    1: 'Unauthorized',
-    2: 'SubscriptionNotFound',
-    3: 'NotInitialized',
-    4: 'InvalidAmount',
-    5: 'InvalidHeartbeat',
-    6: 'InvalidThreshold',
-    7: 'WebhookTooLong',
-    8: 'InvalidSubscriptionStatusError'
+    0: 'Contract has been already initialized', //'AlreadyInitialized',
+    1: 'This account is not the owner of the subscription', //'Unauthorized',
+    2: 'Subscription was not found', //'SubscriptionNotFound',
+    3: 'Account has not been initialized yet', //'NotInitialized',
+    4: 'Invalid amount provided', //'InvalidAmount',
+    5: 'Invalid heartbeat value', //'InvalidHeartbeat',
+    6: 'Invalid threshold value', //'InvalidThreshold',
+    7: 'Encoded webhook value is too long', //'WebhookTooLong',
+    8: 'Subscription has been suspended' //'InvalidSubscriptionStatusError'
 }
 
 /**
- * @typedef {{}} OracleSymbol
+ * @typedef {{}} OracleSymbol - Unique asset ticker identifier
  * @property {string} source - Price feed contract address
- * @property {string} symbol - Token symbol
+ * @property {string} asset - Asset ticker
  */
 
 /**
- * @typedef {bigint|string} SubscriptionId
+ * @typedef {bigint|string} SubscriptionId - Subscription identifier
  */
 
 /**
- * @typedef {'active'|'suspended'} SubscriptionStatus
+ * @typedef {'active'|'suspended'} SubscriptionStatus - Current subscription status
  */
 
 export class Subscription {
@@ -34,8 +32,8 @@ export class Subscription {
         this.id = id
         this.status = props.status === 0 ? 'active' : 'suspended'
         this.owner = props.owner
-        this.base = decodeOracleSymbol(props.base)
-        this.quote = decodeOracleSymbol(props.quote)
+        this.base = props.base
+        this.quote = props.quote
         this.threshold = props.threshold
         this.heartbeat = props.heartbeat
         this.balance = props.balance
@@ -102,32 +100,4 @@ export class Subscription {
      * @readonly
      */
     updated
-}
-
-/**
- * @param {OracleSymbol} os
- * @internal
- */
-export function formatOracleSymbol(os) {
-    //resolve symbol type
-    const symbolType = StrKey.isValidContract(os.symbol) ? 'Stellar' : 'Other'
-    const symbol = os.symbol
-    return {
-        asset: {
-            tag: symbolType,
-            values: [symbol]
-        },
-        source: os.source
-    }
-}
-
-function decodeOracleSymbol(os) {
-    let symbol = os.asset.values[0]
-    if (os.asset.tag === 'Stellar') {
-        symbol = StrKey.encodeContract(symbol)
-    }
-    return {
-        source: os.source,
-        symbol
-    }
 }
