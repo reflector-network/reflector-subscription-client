@@ -52,8 +52,6 @@ export default class SubscriptionClient {
         validation.validateAccount(owner, 'owner')
         validation.validateOracleSymbol(base, 'base')
         validation.validateOracleSymbol(quote, 'quote')
-        if (base.source !== quote.source)
-            throw new Error('Cross-oracle subscriptions not supported')
         threshold = validation.validateThreshold(threshold)
         heartbeat = validation.validateHeartbeat(heartbeat)
         validation.validateWebhook(webhook)

@@ -3,7 +3,7 @@ export const ContractErrors = {
     1: 'This account is not the owner of the subscription', //'Unauthorized',
     2: 'Subscription was not found', //'SubscriptionNotFound',
     3: 'Account has not been initialized yet', //'NotInitialized',
-    4: 'Invalid amount provided', //'InvalidAmount',
+    4: 'Insufficient deposit amount', //'InvalidAmount',
     5: 'Invalid heartbeat value', //'InvalidHeartbeat',
     6: 'Invalid threshold value', //'InvalidThreshold',
     7: 'Encoded webhook value is too long', //'WebhookTooLong',
