@@ -17,23 +17,23 @@ import {Keypair, Networks, TransactionBuilder} from '@stellar/stellar-sdk'
 //callback for signing generated trasnactions
 function sign(xdr, opts) {
     const tx = TransactionBuilder.fromXDR(xdr, opts.networkPassphrase) //parse a transaction from raw XDR
-    tx.sign(Keypair.fromSecret('SC...OI')) //sign it
+    tx.sign(Keypair.fromSecret('SC7L...8LOI')) //sign it
     return tx.toEnvelope().toXDR('base64') //return signed transaction
     //alternatively, you can call wallet here to sign the transaction
 }
 
 //create a new instance of the client
 const sc = new SubscriptionClient({
-    publicKey: 'GA...6D',  //address of the account that will own subscriptions
+    publicKey: 'GAD4...F06D',  //address of the account that will own subscriptions
     signTransaction: sign, //tx signing callback
-    rpcUrl: 'https://soroban-testnet.stellar.org/' //RPC URL
+    rpcUrl: 'https://rpc.url/' //RPC URL
 })
 
 //create new subscription
 const created = await sc.createSubscription({
     webhook: 'https://your.site/endpoint-that-will-receive-notifications',
-    base: {asset: 'USD', source: 'CAB5NCTKZEET4NFI35VEQBO4N52C74HUHLZYMTQAOW7W3VOZM6XV2NU4'}, //base symbol
-    quote: {asset: 'BTC', source: 'CAB5NCTKZEET4NFI35VEQBO4N52C74HUHLZYMTQAOW7W3VOZM6XV2NU4'}, //quote symbol
+    base: {asset: 'AQUA:GBNZILSTVQZ4R7IKQDGHYGY2QXL5QOFJYQMXPKWRRM5PAV7Y4M67AQUA', source: 'pubnet'}, //base symbol
+    quote: {asset: 'SOL', source: 'exchanges'}, //quote symbol
     threshold: 3,  //trigger subscription if the price changed more than 0.3%
     heartbeat: 20, //send updates to the server once every 20 minutes regardless of the price changes
     initialBalance: '300' //deposit 300 tokens
@@ -66,28 +66,30 @@ Example of the POST notification received by the webhook endpoint:
 ```json
 {
   "update": {
-    "contract": "CCPYWKODBPDCHCYJTQ3S5OSLXB6LAXQWN6FEOYUYMWXCX2ESYLHPAYMW",
+    "contract": "CBNGTWIVRCD4FOJ24FGAKI6I5SDAXI7A4GWKSQS7E6UYSR4E4OHRI2JX",
     "events": [
-      "ryA05D06CloUpBAQ0svM7lmk4FJvqJD/PIpO02BMRKc="
+      "B873JM7PV3/z+vZ4+qlCuiRI5WiSyJExLD9GcKUmtks=",
+      "Wkc9HnBcMAGxrcAi2nqhst69F/vO31IhmVO7j41UyFU=",
+      "ivg5kPjWFOt8Rwm1dT9VHc6FH00DI6zVbgGlgeao8fk="
     ],
     "event": {
-      "subscription": "595",
+      "subscription": "16",
       "base": {
-        "source": "CC4RBGIT7TGCGSZXO3BV2LD3IWHPVA5ER5HUVHKC2CDAV7GHXRRXGSUV",
-        "asset": "CA2E53VHFZ6YSWQIEIPBXJQGT6VW3VKWWZO555XKRQXYJ63GEBJJGHY7"
+        "source": "pubnet",
+        "asset": "AQUA:GBNZILSTVQZ4R7IKQDGHYGY2QXL5QOFJYQMXPKWRRM5PAV7Y4M67AQUA"
       },
       "quote": {
-        "source": "CC4RBGIT7TGCGSZXO3BV2LD3IWHPVA5ER5HUVHKC2CDAV7GHXRRXGSUV",
-        "asset": "CDJF2JQINO7WRFXB2AAHLONFDPPI4M3W2UM5THGQQ7JMJDIEJYC4CMPG"
+        "source": "exchanges",
+        "asset": "SOL"
       },
       "decimals": 14,
-      "price": "76000159215",
-      "prevPrice": "76457567715",
-      "timestamp": 1721871780000
+      "price": "21749494669965161500",
+      "prevPrice": "21688544256328711209",
+      "timestamp": 1725578340000
     },
-    "root": "F7F29BCMKes8JBox8MUkwZBtDa5jx+SkpnTkZDkV9ss="
+    "root": "O1hOLCVWIxaPWMvyfBvh+MOYh0TTMb8ekj8E1Ao4PfQ="
   },
-  "signature": "j74r4hipZFiAXhz6JOXdIMverJWMkKGFKXTO8AZ/RaABgU8/wBdSUEIeLCh3BhhlT+a2Okxcb3UksrzDC+71Ag==",
-  "verifier": "GBE2YEDQJUD3LL5CXKUTOHD5FXHRWLPGLIKAOAUQ7LURPCA77RSMLIAV"
+  "signature": "FLS6e1auSAdPjDTlb/EKfrv2KvZ1juMRX4zaXCNQWyyjciN4h3kV5hkbfEdjVYTKZmOHaXBod+QFjZPIBEEuCA==",
+  "verifier": "GCQTHGZAYIJB3SEMFJZABA7V7QIAJVRD72GHQAYNHHRBIMOMUXMWBPG3"
 }
 ```

@@ -17,8 +17,8 @@ export default class SubscriptionClient {
             publicKey: params.publicKey,
             signTransaction: params.signTransaction,
             rpcUrl: params.rpcUrl,
-            networkPassphrase: Networks.TESTNET,
-            contractId: params.contractId || 'CDQ7EZ2GG6LI6VKKY3UKDT4QGMNEJZGT2ANR7QCB65XVIXZTQ2CHBXU4'
+            networkPassphrase: params.networkPassphrase || Networks.PUBLIC,
+            contractId: params.contractId || 'CBNGTWIVRCD4FOJ24FGAKI6I5SDAXI7A4GWKSQS7E6UYSR4E4OHRI2JX'
         }
         this.client = new ContractClient(options)
     }
