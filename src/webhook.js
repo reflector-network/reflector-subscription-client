@@ -1,16 +1,16 @@
 import {encrypt, importRSAKey} from '@reflector/subscription-encryption'
-import clientSettings from './client-settings.js'
 
 let pk
 
 /**
  * Encrypt webhook URL
  * @param {string} webhookUrl - URL of the server endpoint that will be listening for the updates
+ * @param {string} publicEncryptionKey - Public key used for webhook encryption
  * @return {Promise<Uint8Array>}
  */
-export async function encryptWebhookUrl(webhookUrl) {
+export async function encryptWebhookUrl(webhookUrl, publicEncryptionKey) {
     if (!pk) {
-        pk = await importRSAKey(base64ToBytes(clientSettings.publicEncryptionKey))
+        pk = await importRSAKey(base64ToBytes(publicEncryptionKey))
     }
     return encrypt(pk, webhookUrl)
 }

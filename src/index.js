@@ -4,6 +4,7 @@ import ContractClient from './contract-client.js'
 import validation from './validation.js'
 import {encryptWebhookUrl} from './webhook.js'
 import {processSimulationErrors} from './error-resolver.js'
+import clientSettings from './client-settings.js'
 
 /**
  * Client for interaction with Reflector Subscriptions service
@@ -20,6 +21,7 @@ export default class SubscriptionClient {
             networkPassphrase: params.networkPassphrase || Networks.PUBLIC,
             contractId: params.contractId || 'CBNGTWIVRCD4FOJ24FGAKI6I5SDAXI7A4GWKSQS7E6UYSR4E4OHRI2JX'
         }
+        this.publicEncryptionKey = params.publicEncryptionKey || clientSettings.publicEncryptionKey
         this.client = new ContractClient(options)
     }
 
@@ -57,7 +59,7 @@ export default class SubscriptionClient {
         validation.validateWebhook(webhook)
         initialBalance = validation.validateBalance(initialBalance, 'initialBalance')
         //encrypt webhook
-        const encryptedWebhook = await encryptWebhookUrl(webhook)
+        const encryptedWebhook = await encryptWebhookUrl(webhook, this.publicEncryptionKey)
         //build transaction
         const tx = await this.client.create_subscription({
             new_subscription: {
