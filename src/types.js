@@ -11,13 +11,17 @@ export const ContractErrors = {
 }
 
 /**
- * @typedef {{}} OracleSymbol - Unique asset ticker identifier
- * @property {string} source - Price feed contract address
- * @property {string} asset - Asset ticker
+ * @typedef {bigint|string} SubscriptionId - Subscription identifier
  */
 
 /**
- * @typedef {bigint|string} SubscriptionId - Subscription identifier
+ * @typedef {'pubnet'|'exchanges'} OracleDataSourceType - Price feed data source
+ */
+
+/**
+ * @typedef {{}} OracleSymbol - Unique asset ticker identifier
+ * @property {string} source - Oracle contract data source
+ * @property {OracleDataSourceType} asset - Asset ticker
  */
 
 /**

@@ -10,6 +10,20 @@ npm i @reflector/subscription-client
 
 ## Usage
 
+### List tickers available for quotation
+
+```js
+import {getAvailableReflectorTickers} from '@reflector/subscription-client'
+
+const pubnetTickers = await getAvailableReflectorTickers('pubnet')
+const externalTickers = await getAvailableReflectorTickers('exchanges')
+
+console.log(pubnetTickers)
+//['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP', ...] 
+```
+
+### Create subscription
+
 ```js
 import SubscriptionClient from '@reflector/subscription-client'
 import {Keypair, Networks, TransactionBuilder} from '@stellar/stellar-sdk'

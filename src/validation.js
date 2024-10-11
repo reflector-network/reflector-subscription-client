@@ -66,9 +66,9 @@ export default {
     validateWebhook(webhook) {
         this.validateString(webhook, 'webhook')
         if (!webhook.startsWith('https://') && !webhook.startsWith('http://'))
-            throw new TypeError('Only HTTP and HTTPS webhook URLs are supported')
+            throw new Error('Only HTTP and HTTPS webhook URLs are supported')
         if (webhook.length > 2000)
-            throw new TypeError('Webhook URL is too long')
+            throw new Error('Webhook URL is too long')
         return webhook
     }
 }

@@ -6,6 +6,8 @@ import {encryptWebhookUrl} from './webhook.js'
 import {processSimulationErrors} from './error-resolver.js'
 import clientSettings from './client-settings.js'
 
+export * from './tickers.js'
+
 /**
  * Client for interaction with Reflector Subscriptions service
  */
