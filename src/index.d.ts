@@ -200,7 +200,19 @@ export type ClientInitializationParams = {
     /**
      * URL of the RPC server
      */
-    rpcUrl: string
+    rpcUrl: string,
+    /**
+     * Timebounds for transactions (in seconds)
+     */
+    callTimeout: number,
+    /**
+     * Transaction default fee (in stroops)
+     */
+    defaultFee: string,
+    /**
+     * Whether to skip expired entries restoration
+     */
+    noRestore: boolean
 }
 
 /**
