@@ -1,11 +1,11 @@
 {
   "name": "@reflector/subscription-client",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Client for Reflector subscriptions service",
   "type": "module",
   "main": "lib/subscriptions.js",
   "module": "src/index.js",
-  "types": "src/index.d.js",
+  "types": "src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reflector-network/reflector-subscription-client.git"
