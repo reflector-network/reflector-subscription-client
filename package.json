@@ -1,6 +1,6 @@
 {
   "name": "@reflector/subscription-client",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Client for Reflector subscriptions service",
   "type": "module",
   "main": "lib/subscriptions.js",
@@ -11,7 +11,8 @@
     "url": "git+https://github.com/reflector-network/reflector-subscription-client.git"
   },
   "scripts": {
-    "build": "webpack --mode=production --config webpack.config.cjs"
+    "build": "webpack --mode=production --config webpack.config.cjs",
+    "prepare": "npm run build"
   },
   "author": "info@stellar.expert",
   "license": "MIT",
