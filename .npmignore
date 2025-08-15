@@ -8,5 +8,6 @@ pnpm-lock.yaml
 tests/
 babel.config.cjs
 webpack.config.cjs
+src/cjs.j
 
 !.npmrc
