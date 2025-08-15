@@ -16,15 +16,14 @@ export default class SubscriptionClient {
      * @param {ClientInitializationParams} params
      */
     constructor(params) {
-        const options = {
-            publicKey: params.publicKey,
-            signTransaction: params.signTransaction,
-            rpcUrl: params.rpcUrl,
-            networkPassphrase: params.networkPassphrase || Networks.PUBLIC,
-            contractId: params.contractId || 'CBNGTWIVRCD4FOJ24FGAKI6I5SDAXI7A4GWKSQS7E6UYSR4E4OHRI2JX'
+        if (!params.networkPassphrase) {
+            params.networkPassphrase = Networks.PUBLIC
+        }
+        if (!params.contractId) {
+            params.contractId = 'CBNGTWIVRCD4FOJ24FGAKI6I5SDAXI7A4GWKSQS7E6UYSR4E4OHRI2JX'
         }
         this.publicEncryptionKey = params.publicEncryptionKey || clientSettings.publicEncryptionKey
-        this.client = new ContractClient(options)
+        this.client = new ContractClient(params)
     }
 
     /**
@@ -73,7 +72,7 @@ export default class SubscriptionClient {
                 webhook: encryptedWebhook
             },
             amount: initialBalance
-        })
+        }, {restore: true})
         processSimulationErrors(tx)
         const res = await tx.signAndSend()
         return new Subscription(res.result[0], res.result[1])
@@ -94,7 +93,7 @@ export default class SubscriptionClient {
             subscription_id: subscriptionId,
             amount: amountToDeposit,
             from
-        })
+        }, {restore: true})
         processSimulationErrors(tx)
         const res = await tx.signAndSend()
     }
@@ -106,7 +105,7 @@ export default class SubscriptionClient {
      */
     async cancel(subscriptionId) {
         subscriptionId = validation.validateBigint(subscriptionId, 'subscriptionId')
-        const tx = await this.client.cancel({subscription_id: subscriptionId})
+        const tx = await this.client.cancel({subscription_id: subscriptionId}, {restore: true})
         processSimulationErrors(tx)
         const res = await tx.signAndSend()
     }
